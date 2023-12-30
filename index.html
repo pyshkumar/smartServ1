@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product List</title>
+  </head>
+  <body>
+    <h1>Products</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Popularity</th>
+          <th>Title</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script>
+      fetch("https://s3.amazonaws.com/open-to-cors/assignment.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const products = Object.values(data.products).sort(
+            (a, b) => b.popularity - a.popularity
+          );
+          const tbody = document.querySelector("tbody");
+          products.forEach((product) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+        <td>${product.popularity}</td>
+        <td>${product.title}</td>
+        <td>${product.price}</td>
+      `;
+            tbody.appendChild(row);
+          });
+        })
+        .catch((error) => console.error(error));
+    </script>
+  </body>
+</html>
